@@ -5,8 +5,8 @@ model <- function(time, y, params) {
     dx <- speed
     db <- (0 / A) - dx
     dP <- -P / b * db
-    #dh <- -dx
-    #dV <- dh * A
+    dh <- -dx
+    dV <- dh * A
     dV <- 0
     
     

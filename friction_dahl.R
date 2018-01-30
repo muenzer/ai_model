@@ -9,16 +9,15 @@ Speed <- approxfun(x = c(0,1,100), y = c(0,v,v), method = "linear", rule = 2)
 model <- function(time, y, params) {
   with(as.list(c(y, params)), {
     v = Speed(time)
-    s = F_c + (F_s - F_c) * exp(-(abs(v/v_s))^j)
 
     dx = v
-    dz = v - ((sigma_0 * abs(v)) / s) * z
+    dz = v -((sigma_0 * abs(v)) / F_c) * z
 
     #F = sigma_0 * z + sigma_1 * dz + sigma_2 * v
-    F = sigma_0 * z
+    F = sigma_0 * z + F_v*v
 
 
-    list(c(dx, dz), F = F, v = v, s = s)
+    list(c(dx, dz), F = F, v = v)
   })
 }
 
@@ -28,14 +27,11 @@ yini <- c(
 )
 
 params <- c(
-  F_s = 60,
-  F_c = 1,
-  v_s = 0.1,
-  j = 1,
-  sigma_0 = 1000,
-  sigma_1 = 0,
-  sigma_2 = 0
+  F_c = 5,
+  F_v = 0,
+  sigma_0 = 10
 )
+
 
 steps <- seq(0, 5, 0.002)
 
